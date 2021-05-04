@@ -149,17 +149,17 @@ It generates in the *WEIGHTS_DIR* folder (where the weights are loaded)
 
 | Model        | Pretrained | Cut-block | Fine-tuning layer  | ACC | Prec | Rec  | F1    | Spec | 
 | ------------ |----------|---------|------------------|---|----|---|---|---| 
-|    ResNet18          |       True     |    3       |         -1           |   0.9426  | 0.9642     |  0.9152    |    0.9391   |  0.9682   |
-|    ResNet18      |       True     |         |         1           |     |   |    |      |    |
+|    ResNet18          |       True     |    3       |         -1           |   **0.9426**  | **0.9642**     |  **0.9152**    |    **0.9391**   |  **0.9682**   |
+|    ResNet18      |       True     |     2    |         1           |    0.9098  |  0.9444 |  0.8644  |   0.9026   |  0.9523  |
 |    ResNet18          |       False     |      2    |         -1           |  0.9098 |  0.9285   |   0.8813  |   0.9043    |  0.9365  |
 |    ResNet34          |       True     |    3       |         -1           |   0.9344  | 0.9636     | 0.8983    |    0.9298   |  0.9682   |
-|    ResNet34      |       True     |         |         1           |     |   |    |      |    |
+|    ResNet34      |       True     |      2   |         1           |   0.9344  |  0.9473 |   0.9152 |   0.9310    |  0.9523  |
 |    ResNet34          |       False     |     1     |         -1           |  0.9098  |  0.9444   |   0.8644  |   0.9026   |  0.9523  |
 |    ResNet50      |       True     |     3      |         -1           |  0.9344   |   0.9473 | 0.9152   |  0.9310    |  0.9523  |
 |    ResNet50      |       True     |     2     |         1           |  0.9016   |  0.9607  |  0.8305  |  0.8909    | 0.9682   |
 |    ResNet50         |       False     |       2   |         -1           |  0.9098 |   0.9285  |  0.8813   |    0.9043   |  0.9365  |
 
-**>If -1:all layers were finetuned, 1:only the fc1 was finetuned**
+**>If -1:all layers were finetuned, 1:only the fc1 was finetuned (CNN as feature extractor only)**
 
 **Best Vgg Detection results** (may vary from the previously reported results):
 
