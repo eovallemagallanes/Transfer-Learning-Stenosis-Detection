@@ -1,0 +1,6 @@
+[PARAMS]
+DATA_DIR = stenosis_data
+WEIGHTS_DIR = weights_all_freeze
+model_name = resnet18
+cut_block = 2
+train_layers = 1
