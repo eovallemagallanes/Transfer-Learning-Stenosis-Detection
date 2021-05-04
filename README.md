@@ -19,7 +19,7 @@ Aditional packages: torchsummary and livelossplot.
 ----------
 ## Training stage
 
-The training XCA images were patches of $$32 \times 32$$ pixels, such that
+The training XCA images were patches of <img src="https://render.githubusercontent.com/render/math?math=32 \times 32"> pixels, such that
 
 - stenosis_data
     - train
@@ -89,7 +89,7 @@ All the configuration parameters are in a text file, such as
 DATA_DIR = stenosis_data
 WEIGHTS_DIR = weights
 model_name = resnet18
-res_blocks = 3
+cut_block = 3
 train_layers = -1
 batch_size = 4
 pretrained = True
@@ -100,7 +100,6 @@ patience = 20
 num_epochs = 100
 ```
 
-**Notice that res_blocks also applied for conv_blocks (vgg)**
 
 Running example (in a coolab jupyter notebook):
 
@@ -111,10 +110,11 @@ Running example (in a coolab jupyter notebook):
 It generates in the *WEIGHTS_DIR* folder:
 - A *.pth* file with the weights of the model
 - A *.json* file with the training acc/loss history
+
 ----------
 ## Testing stage
 
-If you want to test in your own dataset, set on a train folder all the XCA images. Notice that the size **must be** $$32 \times 32$$ pixels, and separate into two subfolders: positive and negatives cases. For instance:
+If you want to test in your own dataset, set on a train folder all the XCA images. Notice that the size **must be** <img src="https://render.githubusercontent.com/render/math?math=32 \times 32"> pixels, and separate into two subfolders: positive and negatives cases. For instance:
 - stenosis_data
     - train
         - positive
@@ -130,11 +130,10 @@ All the configuration parameters are in a text file, such as
 DATA_DIR = stenosis_data
 WEIGHTS_DIR = weights
 model_name = resnet18
-res_blocks = 3
+cut_block = 3
 train_layers = -1
 ```
 
-**Notice that res_blocks also applied for conv_blocks (vgg)**
 
 Running example (in a coolab jupyter notebook):
 
