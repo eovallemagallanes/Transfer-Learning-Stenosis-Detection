@@ -45,7 +45,7 @@ def test_model(device, model, test_loader, PATH_RESULTS):
     for fname, y_true, y_proba, y_pred in zip(test_loader.dataset.samples, y_true_list, y_probs_list, y_pred_list):
         data.append((fname[0], y_true, y_proba[0], y_pred))
         
-    with open(PATH_RESULTS,'w') as out:
+    with open(PATH_RESULTS,'w', newline='', encoding='utf-8') as out:
         csv_out=csv.writer(out)
         csv_out.writerow(['filename', 'y_true','y_proba', 'y_pred'])
         for row in data:
