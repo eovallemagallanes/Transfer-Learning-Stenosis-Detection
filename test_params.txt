@@ -1,6 +1,12 @@
 [PARAMS]
 DATA_DIR = stenosis_data
-WEIGHTS_DIR = weights_all_freeze
-model_name = resnet18
-cut_block = 2
-train_layers = 1
+WEIGHTS_DIR = weights_tmp
+model_type = vgg
+model_deep = 13
+model_name = vgg13
+cut_block = 4
+train_layers = -1
+RESULTS_DIR = results
+GRADCAM = True
+imagenet_norm = False
+cam_layer = conv4
