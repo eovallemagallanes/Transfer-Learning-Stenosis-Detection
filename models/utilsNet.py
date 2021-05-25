@@ -82,6 +82,16 @@ def createTrainValDataLoaders(DATA_DIR, batch_size, num_output_channels=3, norma
     return dataloaders, dataset_sizes
 
 
+def createTestDataLoaders(DATA_DIR, batch_size=1, num_output_channels=3, normalize=True):
+    # create dataloaders
+    data_transforms = transform(num_output_channels=num_output_channels, normalize=normalize)
+    # create dataloaders
+    test_image_datasets = datasets.ImageFolder(os.path.join(DATA_DIR, "test"), data_transforms)
+    test_loader = DataLoader(dataset=test_image_datasets, shuffle=False, batch_size=batch_size)
+
+    return test_loader
+
+
 def createModel(model_type, model_deep, num_blocks, num_trainable_layers=-1, pretrained=True, num_classes=1):
     model_name = '%s%d' % (model_type, model_deep)
     if model_type == 'vgg':
