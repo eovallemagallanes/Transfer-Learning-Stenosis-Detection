@@ -1,0 +1,17 @@
+[PARAMS]
+DATA_DIR = stenosis_data
+WEIGHTS_DIR = weights_tmp
+torch_seed = 11
+model_type = vgg
+model_deep = 13
+model_name = vgg13
+cut_block = 4
+train_layers = -1
+batch_size = 4
+pretrained = False
+lr = 0.001
+momentum = 0.8
+factor= 0.1
+patience = 20
+num_epochs = 10
+finetuning = False
