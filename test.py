@@ -14,6 +14,8 @@ import torch.nn as nn
 # FIX TO WORK FOR ANY BATCH SIZE
 
 def test_model(device, model, test_loader, PATH_RESULTS):
+    # set model to eval mode
+    model.eval()
     y_probs_list = []
     y_pred_list = []
     y_true_list = []
