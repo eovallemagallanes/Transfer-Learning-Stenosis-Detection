@@ -1,0 +1,11 @@
+[PARAMS]
+DATA_DIR = stenosis_data
+WEIGHTS_DIR = weights_tmp
+model_name = plaincnn_scratch
+batch_size = 4
+lr = 0.001
+momentum = 0.8
+factor= 0.1
+patience = 100
+num_epochs = 100
+finetuning = False
