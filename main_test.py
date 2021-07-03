@@ -52,7 +52,7 @@ model = createModel(model_type=model_type, model_deep=model_deep, num_blocks=cut
 model.to(device)
 
 # load weights
-model_weights = '%s/state_dict_model_%s.pth' %(WEIGHTS_DIR, model_name)
+model_weights = '%s/model_%s.pth' %(WEIGHTS_DIR, model_name)
 pretrained_checkpoint = torch.load(model_weights,  map_location=device)
 model.load_state_dict(pretrained_checkpoint['model_state_dict'])
 #model.eval()
