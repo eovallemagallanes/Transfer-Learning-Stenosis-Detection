@@ -173,6 +173,9 @@ If you use this for research, please cite. Here is an example BibTeX entry:
 
 Want to contribute? Great!. Contact us.
 
+Follow our research work at: https://emmanuelovalle.netlify.app/
+
+
 ----------
 ## License
 
