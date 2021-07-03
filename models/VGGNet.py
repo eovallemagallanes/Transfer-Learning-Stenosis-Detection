@@ -14,7 +14,7 @@ class MyVgg(nn.Module):
 
         total_blocks = 4
         if num_blocks > total_blocks or num_blocks < 1:
-            raise ValueError("num_blocks should be an integer betwwen 1 and {} ".format(total_blocks))
+            raise ValueError("num_blocks should be an integer between 1 and {} ".format(total_blocks))
 
         basemodel = torch.hub.load('pytorch/vision:v0.9.0', model_name, pretrained=pretrained)
         num_features = 64
