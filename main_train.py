@@ -74,15 +74,15 @@ summary(model, (3, 32, 32))
 
 
 if finetuning:
-    model_weights = '%s/state_dict_model_%s.pth' % (WEIGHTS_DIR, model_name)
+    model_weights = '%s/model_%s.pth' % (WEIGHTS_DIR, model_name)
     model_name = model_name + '_finetuning'
     print('Loading weights from ', model_weights)
     pretrained_checkpoint = torch.load(model_weights,  map_location=device)
     model.load_state_dict(pretrained_checkpoint['model_state_dict'])
 
 # weights path
-model_checkpoint = '%s/state_dict_model_%s.pth' % (WEIGHTS_DIR, model_name)
-model_history = '%s/model_history_%s.json' % (WEIGHTS_DIR, model_name)
+model_checkpoint = '%s/model_%s.pth' % (WEIGHTS_DIR, model_name)
+model_history = '%s/history_%s.json' % (WEIGHTS_DIR, model_name)
 
 # set optimizer and lr-scheduler
 criterion = nn.BCEWithLogitsLoss(reduction='sum').cuda()
