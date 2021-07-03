@@ -12,10 +12,13 @@ class MyResNet(nn.Module):
 
         total_blocks = 4
         if num_blocks > total_blocks or num_blocks < 1:
-            raise ValueError("num_blocks should be an integer betwwen 1 and {} ".format(total_blocks))
+            raise ValueError("num_blocks should be an integer between 1 and {} ".format(total_blocks))
 
         basemodel = torch.hub.load('pytorch/vision:v0.9.0', model_name, pretrained=pretrained)
         num_features = 64
+        scale = 1
+        if model_name == 'resnet50':
+            scale = 4
         self.inplanes = 64
         self.num_classes = num_classes
         self.num_blocks = num_blocks
@@ -26,25 +29,25 @@ class MyResNet(nn.Module):
 
         if self.num_blocks == 1:
             self.layer1 = basemodel.layer1
-            num_features = 64
+            num_features = 64*scale
 
         if self.num_blocks == 2:
             self.layer1 = basemodel.layer1
             self.layer2 = basemodel.layer2
-            num_features = 128
+            num_features = 128*scale
 
         if self.num_blocks == 3:
             self.layer1 = basemodel.layer1
             self.layer2 = basemodel.layer2
             self.layer3 = basemodel.layer3
-            num_features = 256
+            num_features = 256*scale
 
         if self.num_blocks == 4:
             self.layer1 = basemodel.layer1
             self.layer2 = basemodel.layer2
             self.layer3 = basemodel.layer3
             self.layer4 = basemodel.layer4
-            num_features = 512
+            num_features = 512*scale
 
         self.avgpool = nn.AdaptiveAvgPool2d((1, 1))
         self.fc = nn.Linear(num_features, self.num_classes)
