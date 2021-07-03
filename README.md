@@ -31,53 +31,46 @@ The training XCA images were patches of <img src="https://render.githubuserconte
 
 Supported architectures (so far):
 - ResNet (resnet18, resnet34, resnet50)
-- Vgg (vgg1, vgg13, vgg16)
+- VGG (vgg11, vgg13, vgg16)
 
 ### ResNet's Architectures and configurations:
 
 ```
-name:  conv1
-name:  bn1
-name:  relu
-name:  maxpool
-name:  layer1
-name:  layer2
-name:  layer3
-name:  layer4
-name:  avgpool
-name:  fc1
+(0a):  conv1
+(0b):  bn1
+(0c):  relu
+(0d):  maxpool
+(1):  layer1
+(2):  layer2
+(3):  layer3
+(4):  layer4
+(pooling):  avgpool
+(fc):  fc1
 ```
 
-Cut-blocks parameters, e.g., 1 means that the network will be cut in the output of the layer1, and then connected to the avgpool.:
+Cut-blocks parameters, e.g., 1 means that the network will be cut in the output of the layer1 (fisrt residual block), and then connected to the avgpool.:
 - [1, 2, 3, 4]
 
-Fine-tuning layers parameters, from top to bottom, e.g., 1 means only the fc1 layer will be finetuned, and 10 that all the layers will be finetuned:
-- If cut-block = 4, finetuning layers could be: [1, 3, 4, 5, 6, 10]
-- If cut-block = 3, finetuning layers could be: [1, 3, 4, 5, 6, 9]
-- If cut-block = 2, finetuning layers could be: [1, 3, 4, 5, 6, 8]
-- If cut-block = 1, finetuning layers could be: [1, 3, 4, 5, 6, 7]
+Fine-tuning layers parameters, from top to bottom, e.g., 1 means only the fc1 layer will be finetuned.
+
 
 ### Vgg's Architectures and configurations:
 
 ```
-name:  conv1
-name:  conv2
-name:  conv3
-name:  conv4
-name:  conv5
-name:  avgpool
-name:  fc
+(0):  conv1
+(1):  conv2
+(2):  conv3
+(3):  conv4
+(4):  conv5
+(pooling):  avgpool
+(fc):  fc
 ```
 
-Cut-blocks parameters, e.g., 1 means that the network will be cut in the output of the conv2, and then connected to the avgpool.:
+Cut-blocks parameters, e.g., 1 means that the network will be cut in the output of the conv2 (first convolutional block), and then connected to the avgpool.:
 - [1, 2, 3, 4]
 
 Fine-tuning layers parameters, from top to bottom, e.g., 1 means only the fc1 layer will be finetuned, and 7 that all the layers will be finetuned:
-- If cut-block = 4, finetuning layers could be: [1, 3, 4, 5, 6, 7]
-- If cut-block = 3, finetuning layers could be: [1, 3, 4, 5, 6]
-- If cut-block = 2, finetuning layers could be: [1, 3, 4, 5]
-- If cut-block = 1, finetuning layers could be: [1, 3, 4]
-- 
+
 **For all models, if a -1 is passed as finetuning layer, all the layers will be finetuned.**
 
 
@@ -86,18 +79,22 @@ All the configuration parameters are in a text file, such as
 
 ```
 [PARAMS]
-DATA_DIR = stenosis_data
-WEIGHTS_DIR = weights
-model_name = resnet18
-cut_block = 3
-train_layers = -1
-batch_size = 4
-pretrained = True
-lr = 0.001
-momentum = 0.8
-factor= 0.1
-patience = 20
-num_epochs = 100
+DATA_DIR = 'DATASET FOLDER'
+WEIGHTS_DIR = 'DIRECTORY TO SAVE WEIGHTS '
+torch_seed = 'PYTORCH SEED'
+model_type = 'MODEL TYPE: resnet/vgg'
+model_deep = 'MODEL DEPTH'
+model_name = 'MODEL FILENAME'
+cut_block = 'CUT BLOCK: 1-4'
+train_layers = 'NO. TRAINABLE LAYERS'
+batch_size = 'TRAINING BATCH SIZE'
+pretrained = 'USE IMAGENET: True/False'
+lr = 'LEARNING RATE'
+momentum = 'MOMENTUM
+factor= 'LEARNING RATE DECAY FACTOR'
+patience = 'VAL_LOSS PATIENCE'
+num_epochs = 'NUM OF EPOCHS TO TRAIN'
+finetuning = 'FINETUNE A PREVIOS MODEL, READED FROM WEIGHTS_DIR'
 ```
 
 
@@ -121,17 +118,23 @@ If you want to test in your own dataset, set on a train folder all the XCA image
         - negative
 
 Weights example: 
-- **state_dict_model_resnet18_03_-1.pth** : resnet18 weights with three residuals blocks (of four) with all the layers finetuned.
+- **model_resnet18_3RB_ALL_FT.pth** : resnet18 weights with three residuals blocks (of four) with all the layers finetuned.
 
 All the configuration parameters are in a text file, such as
 
 ```
 [PARAMS]
-DATA_DIR = stenosis_data
-WEIGHTS_DIR = weights
-model_name = resnet18
-cut_block = 3
+DATA_DIR = 'DATASET PATH'
+WEIGHTS_DIR = 'DIRECTORY TO SAVE WEIGHTS '
+model_type = 'MODEL TYPE: resnet/vgg'
+model_deep = 'MODEL DEPTH'
+model_name = 'MODEL FILENAME'
+cut_block = 'CUT BLOCK: 1-4'
 train_layers = -1
+RESULTS_DIR = 'RESULTS PATH'
+GRADCAM = 'APPLY GRADCAM: True/False'
+imagenet_norm = 'APPLY IMAGENET NORMALIZATION: True/False'
+cam_layer = 'GRADCAM LAYER'
 ```
 
 
@@ -145,25 +148,7 @@ It generates in the *WEIGHTS_DIR* folder (where the weights are loaded)
 - A *.json* file with the testing report from each metric
 - A *.csv* file with the testing filename of the image, the ground-truth label, the predicted probability, and the predicted label, respectively. 
 
-**Best ResNet Detection results** (may vary from the previously reported results):
-
-| Model        | Pretrained | Cut-block | Fine-tuning layer  | ACC | Prec | Rec  | F1    | Spec | 
-| ------------ |----------|---------|------------------|---|----|---|---|---| 
-|    ResNet18          |       True     |    3       |         -1           |   **0.9426**  | **0.9642**     |  **0.9152**    |    **0.9391**   |  **0.9682**   |
-|    ResNet18      |       True     |     2    |         1           |    0.9098  |  0.9444 |  0.8644  |   0.9026   |  0.9523  |
-|    ResNet18          |       False     |      2    |         -1           |  0.9098 |  0.9285   |   0.8813  |   0.9043    |  0.9365  |
-|    ResNet34          |       True     |    3       |         -1           |   0.9344  | 0.9636     | 0.8983    |    0.9298   |  0.9682   |
-|    ResNet34      |       True     |      2   |         1           |   0.9344  |  0.9473 |   0.9152 |   0.9310    |  0.9523  |
-|    ResNet34          |       False     |     1     |         -1           |  0.9098  |  0.9444   |   0.8644  |   0.9026   |  0.9523  |
-|    ResNet50      |       True     |     3      |         -1           |  0.9344   |   0.9473 | 0.9152   |  0.9310    |  0.9523  |
-|    ResNet50      |       True     |     2     |         1           |  0.9016   |  0.9607  |  0.8305  |  0.8909    | 0.9682   |
-|    ResNet50         |       False     |       2   |         -1           |  0.9098 |   0.9285  |  0.8813   |    0.9043   |  0.9365  |
-
-**>If -1:all layers were finetuned, 1:only the fc1 was finetuned (CNN as feature extractor only)**
-
-**Best Vgg Detection results** (may vary from the previously reported results):
-
-**TBA**
+**Detection results** may change from the previously reported results due to the random seed, random split test/validation/train dataset:
 
 
 ----------
