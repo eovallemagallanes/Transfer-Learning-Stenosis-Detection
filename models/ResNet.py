@@ -1,5 +1,6 @@
 import torch
 import torch.nn as nn
+from torchvision import models
 
 resnet_models = ['resnet18', 'resnet34', 'resnet50']
 
@@ -14,7 +15,15 @@ class MyResNet(nn.Module):
         if num_blocks > total_blocks or num_blocks < 1:
             raise ValueError("num_blocks should be an integer between 1 and {} ".format(total_blocks))
 
-        basemodel = torch.hub.load('pytorch/vision:v0.9.0', model_name, pretrained=pretrained)
+        #basemodel = torch.hub.load('pytorch/vision:v0.9.0', model_name, pretrained=pretrained)
+        if model_name == 'resnet18':
+            basemodel = models.resnet18(pretrained=pretrained)
+        if model_name == 'resnet34':
+            basemodel = models.resnet34(pretrained=pretrained)
+        if model_name == 'resnet50':
+            basemodel = models.resnet50(pretrained=pretrained)
+
+
         num_features = 64
         scale = 1
         if model_name == 'resnet50':
